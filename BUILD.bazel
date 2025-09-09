@@ -1,4 +1,8 @@
 cc_binary(
     name = "main_target",
-    srcs = ["main.cpp"]
+    srcs = [
+        "main.cpp", 
+        "fibonacci.hpp"
+    ],
+    
 )
