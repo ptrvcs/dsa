@@ -1,7 +1,8 @@
 #include <iostream>
 #include <chrono>
+#include <functional>
 
-int calcualte_fibonacci_with_loop()
+void calcualte_fibonacci_with_loop()
 {
     int last_before_number = 0;
     int last_number = 1;
@@ -27,24 +28,24 @@ void calcualte_fibonacci_with_recursion(int last_before_number, int last_number,
     calcualte_fibonacci_with_recursion(last_before_number, last_number, remaining - 1);
 }
 
-
-
-int main()
+template <typename Func, typename... Args>
+auto measure_runtime(Func &&func, Args &&...args)
 {
     using namespace std::chrono;
 
-    auto start_loop = high_resolution_clock::now();
-    calcualte_fibonacci_with_loop();
-    auto end_loop = high_resolution_clock::now();
-    auto passed_loop = duration_cast<nanoseconds>(end_loop - start_loop).count();
-    std::cout << "Loop time: " << passed_loop << " ns" << std::endl;
+    auto start = high_resolution_clock::now();
     
-    std::cout << "-----" << std::endl;
+    std::invoke(std::forward<Func>(func), std::forward<Args>(args)...);
 
-    auto start_rec = high_resolution_clock::now();
-    calcualte_fibonacci_with_recursion(0, 1, 17);
-    auto end_rec = high_resolution_clock::now();
-    auto passed_rec = duration_cast<nanoseconds>(end_loop - start_loop).count();
-    std::cout << "Loop time: " << passed_rec << " ns" << std::endl;
+    auto end = high_resolution_clock::now();
+    auto passed = duration_cast<nanoseconds>(end - start).count();
 
+    std::cout << "Time passed: " << passed << " ns" << std::endl;
+}
+
+int main()
+{
+
+    measure_runtime(calcualte_fibonacci_with_loop);
+    measure_runtime(calcualte_fibonacci_with_recursion, 0, 1, 17);
 }
