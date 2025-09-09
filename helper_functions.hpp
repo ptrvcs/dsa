@@ -13,19 +13,19 @@ auto measure_runtime(Func &&func, Args &&...args)
     std::invoke(std::forward<Func>(func), std::forward<Args>(args)...);
 
     auto end = high_resolution_clock::now();
-    auto passed = duration_cast<nanoseconds>(end - start).count();
+    duration<double> passed = end - start;
 
-    std::cout << "Time passed: " << passed << " ns" << std::endl;
+    std::cout << "Time passed: " << passed.count() << " sec" << std::endl;
 }
 
-std::vector<std::int8_t> random_generator()
+std::vector<std::int16_t> random_generator(int size)
 {
     std::srand(std::time(nullptr)); // seed with current time
 
-    std::vector<std::int8_t> array;
-    array.reserve(10);
+    std::vector<std::int16_t> array;
+    array.reserve(size);
 
-    for (int i = 0; i < 10; ++i)
+    for (int i = 0; i < size; ++i)
     {
         array.push_back(std::rand() % 100); // random number between 0 and 99
     }
