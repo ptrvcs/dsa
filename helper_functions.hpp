@@ -32,3 +32,13 @@ std::vector<std::int16_t> random_generator(int size)
 
     return array;
 }
+
+void printArray(std::vector<std::int16_t> array)
+{
+    #ifdef VERBOSE
+        for(int value : array)
+        {
+            std::cout << value << ",";
+        }
+    #endif
+}

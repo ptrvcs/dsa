@@ -3,7 +3,23 @@ cc_binary(
     srcs = [
         "main.cpp", 
         "fibonacci.hpp",
-        "helper_functions.hpp"
+        "helper_functions.hpp",
+        "sorting_algos.hpp"
     ],
+    copts = select({
+        ":verbose_on": ["-DVERBOSE"],
+        ":verbose_off": [],
+        "//conditions:default": [],
+    }),
     
+)
+
+config_setting(
+    name = "verbose_on",
+    values = {"define": "VERBOSE=1"},
+)
+
+config_setting(
+    name = "verbose_off",
+    values = {"define": "VERBOSE=0"},
 )
